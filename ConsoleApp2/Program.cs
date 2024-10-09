@@ -114,7 +114,7 @@ public class Program
         Market market = new Market(random);
         
         // Create two agents with some initial money
-        Agent agent1 = new Agent("Alice", 100, random);
+        Agent agent1 = new Agent("Alice", 100000, random);
         Agent agent2 = new Agent("Bob", 200, random);
         
         // Run simulation for 10 rounds
