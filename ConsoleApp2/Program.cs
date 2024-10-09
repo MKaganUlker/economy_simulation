@@ -69,6 +69,12 @@ public class Agent
             Sell(good, quantity, price);
         }
     }
+
+    // Display the agent's money
+    public void DisplayMoney()
+    {
+        Console.WriteLine($"{Name} has {Money:0.00} money remaining.");
+    }
 }
 
 public class Market
@@ -114,7 +120,7 @@ public class Program
         Market market = new Market(random);
         
         // Create two agents with some initial money
-        Agent agent1 = new Agent("Alice", 100000, random);
+        Agent agent1 = new Agent("Alice", 100, random);
         Agent agent2 = new Agent("Bob", 200, random);
         
         // Run simulation for 10 rounds
@@ -128,6 +134,10 @@ public class Program
             
             // Market prices fluctuate after each round
             market.AdjustPrices();
+
+            // Display each agent's money after the round
+            agent1.DisplayMoney();
+            agent2.DisplayMoney();
         }
     }
 }
