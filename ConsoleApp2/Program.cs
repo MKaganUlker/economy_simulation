@@ -199,7 +199,7 @@ public class Program
             // Market adjusts prices based on supply, demand, and inflation
             market.AdjustPrices();
 
-            // Display the status of each agent
+            // Display the status of each agent43433434
             agent1.DisplayStatus();
             agent2.DisplayStatus(); 
         }
