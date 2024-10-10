@@ -201,7 +201,7 @@ public class Program
 
             // Display the status of each agent
             agent1.DisplayStatus();
-            agent2.DisplayStatus();
+            agent2.DisplayStatus(); 
         }
     }
 }
