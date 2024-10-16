@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 public class Agent
 {
     public string Name { get; private set; }
@@ -7,7 +8,7 @@ public class Agent
     public Dictionary<string, int> Inventory { get; set; }
     private Random rand;
 
-    public double Hunger { get; set; }  // Hunger level drives the need for food asdfasdfsdfasd
+    public double Hunger { get; set; }  // Hunger level drives the need for food
     public double Productivity { get; set; }  // Productivity needs affect the demand for tools
     public string Job { get; private set; }  // Each agent has a job to earn money
     public double Salary { get; private set; }
@@ -70,6 +71,7 @@ public class Agent
         Money += amount;
         Console.WriteLine($"{Name} received {amount:0.00} in dividends.");
     }
+
     // Satisfy needs based on preferences
     public void SatisfyNeeds(Market market)
     {
@@ -159,6 +161,7 @@ public class Company
             investor.ReceiveDividends(dividend);
         }
     }
+
     // Produce goods and add them to the market supply
     public void ProduceGoods(Market market)
     {
@@ -217,6 +220,7 @@ public class Market
         return rand.Next(5, 21);
     }
 }
+
 public class Program
 {
     public static void Main()
@@ -233,37 +237,40 @@ public class Program
 
         // Create companies that produce goods
         Company foodCompany = new Company("FoodCo", "Food", 20, 5, random);
-        Company toolCompany = new Company("ToolCo", "Tools", 10, 10, random);
+        Company toolCompany = new Company("ToolCo", "Tools", 10, 8, random);
 
-        // Simulate 10 rounds of economy
-        for (int round = 1; round <= 10; round++)
+        // Initial display
+        agent1.DisplayStatus();
+        agent2.DisplayStatus();
+
+        // Simulate economy
+        for (int day = 1; day <= 5; day++)
         {
-            Console.WriteLine($"\n--- Round {round} ---");
+            Console.WriteLine($"\n--- Day {day} ---");
 
-            // Agents earn their salary each round
+            // Agents earn salary and make purchases
             agent1.EarnSalary();
             agent2.EarnSalary();
 
-            // Agents invest in companies if they have enough savings
-            agent1.InvestInCompany(foodCompany);
-            agent2.InvestInCompany(toolCompany);
-
-            // Companies produce goods each round
-            foodCompany.ProduceGoods(market);
-            toolCompany.ProduceGoods(market);
-
-            // Companies pay dividends to their investors
-            foodCompany.PayDividends();
-            toolCompany.PayDividends();
-
-            // Agents try to satisfy their needs
             agent1.SatisfyNeeds(market);
             agent2.SatisfyNeeds(market);
 
-            // Market adjusts prices based on supply, demand, and inflation
+            // Companies produce goods
+            foodCompany.ProduceGoods(market);
+            toolCompany.ProduceGoods(market);
+
+            // Market adjusts prices based on supply and inflation
             market.AdjustPrices();
 
-            // Display the status of each agent
+            // Agents invest if they have enough savings
+            agent1.InvestInCompany(foodCompany);
+            agent2.InvestInCompany(toolCompany);
+
+            // Companies pay dividends
+            foodCompany.PayDividends();
+            toolCompany.PayDividends();
+
+            // Status update
             agent1.DisplayStatus();
             agent2.DisplayStatus();
         }
