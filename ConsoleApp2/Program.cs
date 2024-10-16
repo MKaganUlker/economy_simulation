@@ -7,7 +7,7 @@ public class Agent
     public Dictionary<string, int> Inventory { get; set; }
     private Random rand;
 
-    public double Hunger { get; set; }  // Hunger level drives the need for food
+    public double Hunger { get; set; }  // Hunger level drives the need for food asdfasdfsdfasd
     public double Productivity { get; set; }  // Productivity needs affect the demand for tools
     public string Job { get; private set; }  // Each agent has a job to earn money
     public double Salary { get; private set; }
