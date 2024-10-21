@@ -219,6 +219,30 @@ public class Market
     {
         return rand.Next(5, 21);
     }
+
+    public void TriggerRandomEvent()
+    {
+        int eventChance = rand.Next(1, 101);
+        if (eventChance < 10) // 10% chance of an event occurring
+        {
+            Console.WriteLine("A random event has occurred!");
+            // Example events
+            if (eventChance < 5)
+            {
+                // Crop failure
+                Console.WriteLine("Food production has been halved due to crop failure!");
+                // Halve food supply
+                Supply["Food"] = Math.Max(0, Supply["Food"] / 2);
+            }
+            else
+            {
+                // Tool shortage
+                Console.WriteLine("A shortage of tools has driven prices up!");
+                // Increase tool prices by a random amount
+                Prices["Tools"] += rand.Next(2, 6);
+            }
+        }
+    }
 }
 
 public class Program
@@ -233,44 +257,37 @@ public class Program
 
         // Create agents with jobs, salaries, and savings
         Agent agent1 = new Agent("Alice", 100, random, "Farmer", 20);
-        Agent agent2 = new Agent("Bob", 150, random, "Carpenter", 30);
+        Agent agent2 = new Agent("Bob", 150, random, "Carpenter", 25);
 
-        // Create companies that produce goods
-        Company foodCompany = new Company("FoodCo", "Food", 20, 5, random);
-        Company toolCompany = new Company("ToolCo", "Tools", 10, 8, random);
+        // Create a company
+        Company company1 = new Company("ToolCo", "Tools", 10, 5, random);
 
-        // Initial display
-        agent1.DisplayStatus();
-        agent2.DisplayStatus();
-
-        // Simulate economy
-        for (int day = 1; day <= 5; day++)
+        // Simulation for 10 days
+        for (int day = 0; day < 10; day++)
         {
-            Console.WriteLine($"\n--- Day {day} ---");
+            Console.WriteLine($"\nDay {day + 1}:");
 
-            // Agents earn salary and make purchases
+            // Agents earn salaries
             agent1.EarnSalary();
             agent2.EarnSalary();
 
+            // Agents try to satisfy their needs
             agent1.SatisfyNeeds(market);
             agent2.SatisfyNeeds(market);
 
             // Companies produce goods
-            foodCompany.ProduceGoods(market);
-            toolCompany.ProduceGoods(market);
+            company1.ProduceGoods(market);
 
-            // Market adjusts prices based on supply and inflation
+            // Adjust market prices
             market.AdjustPrices();
 
-            // Agents invest if they have enough savings
-            agent1.InvestInCompany(foodCompany);
-            agent2.InvestInCompany(toolCompany);
+            // Trigger random events
+            market.TriggerRandomEvent();
 
-            // Companies pay dividends
-            foodCompany.PayDividends();
-            toolCompany.PayDividends();
+            // Pay dividends to investors (if any)
+            company1.PayDividends();
 
-            // Status update
+            // Display agent statuses
             agent1.DisplayStatus();
             agent2.DisplayStatus();
         }
